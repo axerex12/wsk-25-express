@@ -1,5 +1,23 @@
-const createThumbnail = (req, res, next) => {
-  console.log('todo kuva käsittely');
+import sharp from 'sharp';
+
+const createThumbnail = async (req, res, next) => {
+  console.log('todo: tee kuvakäsittely', req.file);
+  if (!req.file) {
+    next();
+    // next('Oh no, kuvaa ei löydy');
+    return;
+  }
+
+  let extension = 'jpg';
+  if (req.file.mimetype === 'image/png') {
+    // if (req.file.mimetype.includes('/png')) {
+    extension = 'png';
+  }
+
+  await sharp(req.file.path)
+    .resize(100, 100)
+    .toFile(`${req.file.path}_thumb.${extension}`);
+
   next();
 };
 
