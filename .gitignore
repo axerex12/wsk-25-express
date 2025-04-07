@@ -191,3 +191,5 @@ $RECYCLE.BIN/
 
 uploads/*
 !uploads/.gitkeep
+
+.env
